@@ -1,0 +1,49 @@
+{% extends 'base/main.html' %}
+
+{% block contents %}
+
+<div class="header-bar">
+    <div>
+{% if request.user.is_authenticated %}
+    <h1>Hello {{request.user|title}}</h1>  
+    <h3 style="margin: 0">You have <i>{{count}}</i> incomplete task{{count|pluralize}}</h3>    
+    <form action="{% url 'logout' %}" method="post"> 
+        {% csrf_token %}
+        <button class="button-81" type="submit">Log Out </button>
+    </form>
+{% else %}
+        <a class="button-81" href="{% url 'customloginview' %}">Log In</a>
+{% endif %}
+
+    </div>
+</div>  
+   
+<hr>
+
+<h1>My To Do List</h1>
+
+<form method="GET">
+    <input class="button-82" type="text" name="search" value={{search_input}} >
+    <input class="button-82" type="submit" value="Search">
+</form>
+<table>
+    <tr>
+        <th class="table_heading">Items</th>
+        <th></th>
+    </tr>
+    {%for task in tasks %}
+    <tr>
+        <td>{{task.title}} <li>{% if task.complete %} Done {%else%} Undone {%endif%}</li></td>
+        
+        <td><a class="button-83" href="{% url 'task-update' pk=task.id %}">Edit Task</a></td>
+
+        <td><a class="button-83" href="{% url 'task-delete' pk=task.id %}">Delete</a></td>
+        
+    </tr>
+    {%empty%}
+         <h3>No Items in list</h3>
+    {% endfor %}
+</table>
+<a class="button-83" href="{% url 'createtask' %}">Submit Task</a>
+
+{% endblock contents %}

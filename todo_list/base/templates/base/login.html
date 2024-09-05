@@ -1,0 +1,14 @@
+{% extends 'base/main.html' %}
+
+{% block contents %}
+
+<h1> Log In your account</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input class="button-82" type="submit" value="Log In">
+</form>
+<p>If you don't have an account <a style="color:#8B4513 ;" href="{% url 'register' %}">Register</a> here!</p>
+
+{% endblock contents %}
